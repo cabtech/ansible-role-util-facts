@@ -9,8 +9,8 @@ lint: .ylint .alint
 	@touch $@
 
 push:
-	@mkdir -p /mnt/hgfs/shared/ansible-role-app-fail2ban
-	rsync -a * /mnt/hgfs/shared/ansible-role-app-fail2ban
+	@mkdir -p /mnt/hgfs/shared/ansible-role-util-facts
+	rsync -a * /mnt/hgfs/shared/ansible-role-util-facts
 
 clean:
 	@/bin/rm -f .alint .ylint
