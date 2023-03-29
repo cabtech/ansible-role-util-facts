@@ -1,67 +1,60 @@
 ---
+# --------------------------------
 
-- name: 'gather basic set of facts (~cm)'
-  setup:
-    gather_subset: '!all,virtual'
+- name: "Gather a subset of facts (check_mode=false)"
+  ansible.builtin.setup:
+    gather_subset: "!all,virtual"
   check_mode: false
   register: reg_basic_facts
   tags:
   - ct-fax
   - always
 
-- name: 'save basic facts from register (~cm)'
-  set_fact:
-    fax: "{{reg_basic_facts['ansible_facts']}}"
+- name: "Save basic facts from register (check_mode=false)"
+  ansible.builtin.set_fact:
+    fax: "{{ reg_basic_facts['ansible_facts'] }}"
   check_mode: false
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-fax", always]
 
-- name: 'create common facts (~cm)'
-  set_fact:
-    ct_arch: "{{fax['ansible_architecture'] | lower }}"  # e.g. i386 or x86_64
-    ct_codename: "{{fax['ansible_distribution_release'] | lower }}"  # e.g. bionic when Ubuntu18
-    ct_distro_major: "{{fax['ansible_distribution_major_version'] | lower }}"  # e.g. 18 for Ubuntu
-    ct_opsys: 'unix'
-    ct_virt_role: "{{fax['ansible_virtualization_role'] | default('undefined') | lower }}"  # e.g. 'guest'
-    ct_hypervisor: "{{fax['ansible_virtualization_type'] | default('undefined') | lower }}"  # e.g. 'vmware'
+- name: "Create common facts (check_mode=false)"
+  ansible.builtin.set_fact:
+    ct_arch: "{{ fax['ansible_architecture'] | lower }}"  # e.g. i386 or x86_64
+    ct_codename: "{{ fax['ansible_distribution_release'] | lower }}"  # e.g. bionic when Ubuntu18
+    ct_distro_major: "{{ fax['ansible_distribution_major_version'] | lower }}"  # e.g. 18 for Ubuntu
+    ct_opsys: unix
+    ct_virt_role: "{{ fax['ansible_virtualization_role'] | default('undefined') | lower }}"  # e.g. guest
+    ct_hypervisor: "{{ fax['ansible_virtualization_type'] | default('undefined') | lower }}"  # e.g. vmware
   check_mode: false
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-fax", always]
 
-- name: 'create facts for Amazon Linux (~cm)'
-  set_fact:
+- name: "Create facts for Amazon Linux (check_mode=false)"
+  ansible.builtin.set_fact:
     ct_distro: "amlux"
     ct_family: "redhat"
   when:
   - "'amazon' in fax['ansible_distribution'] | lower"
   - ct_distro is not defined
   check_mode: false
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-fax", always]
 
-- name: 'create facts for Kali (~cm)'
-  set_fact:
+- name: "Create facts for Kali (check_mode=false)"
+  ansible.builtin.set_fact:
     ct_distro: "kali"
     ct_family: "debian"
   when:
   - "'kali' in fax['ansible_distribution'] | lower"
   - ct_distro is not defined
   check_mode: false
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-fax", always]
 
-- name: 'create facts for remaining distros (~cm)'
-  set_fact:
-    ct_distro: "{{fax['ansible_distribution'] | lower }}"  # e.g. ubuntu
-    ct_family: "{{fax['ansible_os_family']    | lower }}"  # e.g. debian
+- name: "Create facts for remaining distros (check_mode=false)"
+  ansible.builtin.set_fact:
+    ct_distro: "{{ fax['ansible_distribution'] | lower }}"  # e.g. ubuntu
+    ct_family: "{{ fax['ansible_os_family'] | lower }}"  # e.g. debian
   when:
   - ct_distro is not defined
   check_mode: false
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-fax", always]
+
+# --------------------------------
 ...
