@@ -37,6 +37,16 @@
   check_mode: false
   tags: ["ct-fax", always]
 
+- name: "Create facts for Rocky Linux (check_mode=false)"
+  ansible.builtin.set_fact:
+    ct_distro: "rocky"
+    ct_family: "redhat"
+  when:
+  - ct_distro is not defined
+  - "'rocky' in (fax['ansible_distribution'] | lower)"
+  check_mode: false
+  tags: ["ct-fax", "always"]
+
 - name: "Create facts for Kali (check_mode=false)"
   ansible.builtin.set_fact:
     ct_distro: "kali"
