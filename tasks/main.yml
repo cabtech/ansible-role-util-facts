@@ -6,15 +6,20 @@
     gather_subset: "!all,virtual"
   check_mode: false
   register: reg_basic_facts
-  tags:
-  - ct-fax
-  - always
+  tags: ["ct-facts", always]
 
 - name: "Save basic facts from register (check_mode=false)"
   ansible.builtin.set_fact:
     fax: "{{ reg_basic_facts['ansible_facts'] }}"
   check_mode: false
-  tags: ["ct-fax", always]
+  tags: ["ct-facts", always]
+
+- name: "Dump of facts (check_mode=false,verbosity=1)"
+  ansible.builtin.debug:
+    var: reg_basic_facts
+  check_mode: false
+  verbosity: 1
+  tags: ["ct-facts", always]
 
 - name: "Create common facts (check_mode=false)"
   ansible.builtin.set_fact:
@@ -25,7 +30,7 @@
     ct_virt_role: "{{ fax['ansible_virtualization_role'] | default('undefined') | lower }}"  # e.g. guest
     ct_hypervisor: "{{ fax['ansible_virtualization_type'] | default('undefined') | lower }}"  # e.g. vmware
   check_mode: false
-  tags: ["ct-fax", always]
+  tags: ["ct-facts", always]
 
 - name: "Create facts for Amazon Linux (check_mode=false)"
   ansible.builtin.set_fact:
@@ -35,7 +40,7 @@
   - "'amazon' in fax['ansible_distribution'] | lower"
   - ct_distro is not defined
   check_mode: false
-  tags: ["ct-fax", always]
+  tags: ["ct-facts", always]
 
 - name: "Create facts for Rocky Linux (check_mode=false)"
   ansible.builtin.set_fact:
@@ -45,7 +50,7 @@
   - ct_distro is not defined
   - "'rocky' in (fax['ansible_distribution'] | lower)"
   check_mode: false
-  tags: ["ct-fax", "always"]
+  tags: ["ct-facts", "always"]
 
 - name: "Create facts for Kali (check_mode=false)"
   ansible.builtin.set_fact:
@@ -55,7 +60,7 @@
   - "'kali' in fax['ansible_distribution'] | lower"
   - ct_distro is not defined
   check_mode: false
-  tags: ["ct-fax", always]
+  tags: ["ct-facts", always]
 
 - name: "Create facts for remaining distros (check_mode=false)"
   ansible.builtin.set_fact:
@@ -64,7 +69,7 @@
   when:
   - ct_distro is not defined
   check_mode: false
-  tags: ["ct-fax", always]
+  tags: ["ct-facts", always]
 
 # --------------------------------
 ...
