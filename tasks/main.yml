@@ -17,8 +17,8 @@
 - name: "Dump of facts (CM=F,V=1)"
   ansible.builtin.debug:
     var: reg_basic_facts
+    verbosity: 1
   check_mode: false
-  verbosity: 1
   tags: ["ct-facts", always]
 
 - name: "Create common facts (CM=F)"
