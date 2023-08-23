@@ -1,27 +1,27 @@
 ---
 # --------------------------------
 
-- name: "Gather a subset of facts (check_mode=false)"
+- name: "Gather a subset of facts (CM=F)"
   ansible.builtin.setup:
     gather_subset: "!all,virtual"
   check_mode: false
   register: reg_basic_facts
   tags: ["ct-facts", always]
 
-- name: "Save basic facts from register (check_mode=false)"
+- name: "Save basic facts from register (CM=F)"
   ansible.builtin.set_fact:
     fax: "{{ reg_basic_facts['ansible_facts'] }}"
   check_mode: false
   tags: ["ct-facts", always]
 
-- name: "Dump of facts (check_mode=false,verbosity=1)"
+- name: "Dump of facts (CM=F,V=1)"
   ansible.builtin.debug:
     var: reg_basic_facts
   check_mode: false
   verbosity: 1
   tags: ["ct-facts", always]
 
-- name: "Create common facts (check_mode=false)"
+- name: "Create common facts (CM=F)"
   ansible.builtin.set_fact:
     ct_arch: "{{ fax['ansible_architecture'] | lower }}"  # e.g. i386 or x86_64
     ct_codename: "{{ fax['ansible_distribution_release'] | lower }}"  # e.g. bionic when Ubuntu18
@@ -32,7 +32,7 @@
   check_mode: false
   tags: ["ct-facts", always]
 
-- name: "Create facts for Amazon Linux (check_mode=false)"
+- name: "Create facts for Amazon Linux (CM=F)"
   ansible.builtin.set_fact:
     ct_distro: "amlux"
     ct_family: "redhat"
@@ -42,7 +42,7 @@
   check_mode: false
   tags: ["ct-facts", always]
 
-- name: "Create facts for Rocky Linux (check_mode=false)"
+- name: "Create facts for Rocky Linux (CM=F)"
   ansible.builtin.set_fact:
     ct_distro: "rocky"
     ct_family: "redhat"
@@ -52,7 +52,7 @@
   check_mode: false
   tags: ["ct-facts", "always"]
 
-- name: "Create facts for Kali (check_mode=false)"
+- name: "Create facts for Kali (CM=F)"
   ansible.builtin.set_fact:
     ct_distro: "kali"
     ct_family: "debian"
@@ -62,7 +62,7 @@
   check_mode: false
   tags: ["ct-facts", always]
 
-- name: "Create facts for remaining distros (check_mode=false)"
+- name: "Create facts for remaining distros (CM=F)"
   ansible.builtin.set_fact:
     ct_distro: "{{ fax['ansible_distribution'] | lower }}"  # e.g. ubuntu
     ct_family: "{{ fax['ansible_os_family'] | lower }}"  # e.g. debian
