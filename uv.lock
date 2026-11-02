@@ -62,7 +62,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ansible-role-util-facts"
+name = "ansible-role-ct-facts"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

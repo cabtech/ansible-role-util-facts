@@ -1,5 +1,5 @@
 [project]
-name = "ansible-role-util-facts"
+name = "ansible-role-ct-facts"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ansible-role-util-facts = "ansible_role_util_facts:main"
+ansible-role-ct-facts = "ansible_role_ct_facts:main"
 
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]

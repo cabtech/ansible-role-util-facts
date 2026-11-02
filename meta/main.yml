@@ -8,7 +8,7 @@ galaxy_info:
   description: Gathers facts and sets consistent values
   galaxy_tags: [facts]
   license: GPL v3
-  role_name: ansible_role_util_facts
+  role_name: ansible_role_ct_facts
   min_ansible_version: "2"
   namespace: cabtech
   platforms:
